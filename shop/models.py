@@ -10,7 +10,7 @@ from django.db import models
 
 class Categories(models.Model):
     """Product category."""
-    name = models.CharField(max_length=128, required=True, unique=True)
+    name = models.CharField(max_length=128, unique=True)
 
     def __str__(self):
         return self.name
@@ -19,14 +19,14 @@ class Categories(models.Model):
 class Subcategories(models.Model):
     """Subcategory of categories, for example winter shoes for shoes."""
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128, required=True)
+    name = models.CharField(max_length=128)
 
     def __str__(self):
         return self.name
 
 
 class Brand(models.Model):
-    name = models.CharField(max_length=128, unique=True, required=True)
+    name = models.CharField(max_length=128, unique=True)
 
     def __str__(self):
         return self.name
@@ -44,13 +44,13 @@ class Product(models.Model):
         (FEMALE, 'female'),
         (UNISEX, 'unisex'),
     ]
-    title = models.CharField(max_length=128, required=True, unique=True)
+    title = models.CharField(max_length=128, unique=True)
     price = models.FloatField(max_length=64)
-    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
-    subcategory = models.ForeignKey(Subcategories, on_delete=models.SET_NULL, null=True)
-    description = models.CharField(max_length=1024)
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True)
+    subcategory = models.ForeignKey(Subcategories, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.CharField(max_length=1024, blank=True)
     special_offer = models.BooleanField(default=False)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True)
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -60,7 +60,7 @@ class Product(models.Model):
 
 class ProductsSizes(models.Model):
     """Class connect Product with sizes and contain staff amount."""
-    size = models.CharField(max_length=64, required=True)
+    size = models.CharField(max_length=64)
     product = models.ManyToManyField(Product)
     amount = models.IntegerField(max_length=64)
     date_added = models.DateTimeField(auto_now_add=True)
