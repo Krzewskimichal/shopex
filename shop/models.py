@@ -62,8 +62,8 @@ class ProductsSizes(models.Model):
     """Class connect Product with sizes and contain staff amount."""
     size = models.CharField(max_length=64)
     product = models.ManyToManyField(Product)
-    amount = models.IntegerField(max_length=64)
+    amount = models.IntegerField()
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.size
+        return f"{self.product.name} - {self.size}"
