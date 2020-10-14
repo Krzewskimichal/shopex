@@ -66,4 +66,4 @@ class ProductsSizes(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.product.name} - {self.size}"
+        return f"{self.product.first().title} | size: {self.size} | amount: {self.amount}"
