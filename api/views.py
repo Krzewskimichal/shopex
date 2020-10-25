@@ -4,17 +4,21 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework import generics
 
-from shop.models import Product
-from shop.serializers import ProductSerializer
+from shop.models import Product, Categories, Subcategories
+from shop.serializers import ProductSerializer, CategoriesSerializer, SubCategoriesSerializer
 
 
+#  function view
 @api_view(['GET'])
 def api_overview(request):
     api_urls = {
-        "Product List": "/product-list/",
-        "Product detail": "/product-detail/<str:pk>/",
-        "Create product": 'create-product/',
+        "Product List": "/product_list/",
+        "Product detail": "/product_detail/<str:pk>/",
+        "Create product": "create_product/",
+        "Categories list": "list",
     }
     return Response(api_urls)
 
@@ -26,7 +30,7 @@ def product_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def product_detail(request, pk):
 
     try:
@@ -56,3 +60,50 @@ def create_product(request):
         serializer.save()
 
     return Response(serializer.data)
+
+
+class CategoryList(APIView):
+
+    def get(self, request):
+        category = Categories.objects.all()
+        serializer = CategoriesSerializer(category, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CategoriesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
+class CategoriesDetail(APIView):
+
+    def get(self, request, pk):
+        category = get_object_or_404(Categories, id=pk)
+        serializer = CategoriesSerializer(category, many=False)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        category = get_object_or_404(Categories, id=pk)
+        serializer = CategoriesSerializer(instance=category, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        category = get_object_or_404(Categories, id=pk)
+        category.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
+
+
+class SubCategoriesList(generics.ListCreateAPIView):
+    queryset = Subcategories.objects.all()
+    serializer_class = SubCategoriesSerializer
+
+
+class SubCategoriesDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subcategories.objects.all()
+    serializer_class = SubCategoriesSerializer
