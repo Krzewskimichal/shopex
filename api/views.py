@@ -11,55 +11,55 @@ from shop.models import Product, Categories, Subcategories
 from shop.serializers import ProductSerializer, CategoriesSerializer, SubCategoriesSerializer
 
 
-#  function view
-@api_view(['GET'])
-def api_overview(request):
-    api_urls = {
-        "Product List": "/product_list/",
-        "Product detail": "/product_detail/<str:pk>/",
-        "Create product": "create_product/",
-        "Categories list": "list",
-    }
-    return Response(api_urls)
-
-
-@api_view(['GET'])
-def product_list(request):
-    products = get_list_or_404(Product)
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def product_detail(request, pk):
-
-    try:
-        product = get_object_or_404(Product, id=pk)
-    except Product.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == "GET":
-        serializer = ProductSerializer(product, many=False)
-        return Response(serializer.data)
-    elif request.method == "PUT":
-        serializer = ProductSerializer(product, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-    elif request.method == "DELETE":
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(['POST'])
-def create_product(request):
-    serializer = ProductSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+#  function Product api_view(for learning)
+# @api_view(['GET'])
+# def api_overview(request):
+#     api_urls = {
+#         "Product List": "/product_list/",
+#         "Product detail": "/product_detail/<str:pk>/",
+#         "Create product": "create_product/",
+#         "Categories list": "list",
+#     }
+#     return Response(api_urls)
+#
+#
+# @api_view(['GET'])
+# def product_list(request):
+#     products = get_list_or_404(Product)
+#     serializer = ProductSerializer(products, many=True)
+#     return Response(serializer.data)
+#
+#
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def product_detail(request, pk):
+#
+#     try:
+#         product = get_object_or_404(Product, id=pk)
+#     except Product.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#
+#     if request.method == "GET":
+#         serializer = ProductSerializer(product, many=False)
+#         return Response(serializer.data)
+#     elif request.method == "PUT":
+#         serializer = ProductSerializer(product, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+#     elif request.method == "DELETE":
+#         product.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+#
+#
+# @api_view(['POST'])
+# def create_product(request):
+#     serializer = ProductSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#
+#     return Response(serializer.data)
 
 
 class CategoryList(APIView):
@@ -107,3 +107,13 @@ class SubCategoriesList(generics.ListCreateAPIView):
 class SubCategoriesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Subcategories.objects.all()
     serializer_class = SubCategoriesSerializer
+
+
+class ProductList(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
