@@ -3,4 +3,9 @@
 
     <p>Strona glowna</p>
 
+    {% if user.is_authenticated %}
+        <p>zalogowany</p>
+    {% else %}
+        <p>nie zalogowany</p>
+    {% endif %}
 {% endblock content %}
