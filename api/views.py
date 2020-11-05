@@ -11,18 +11,20 @@ from shop.models import Product, Categories, Subcategories
 from shop.serializers import ProductSerializer, CategoriesSerializer, SubCategoriesSerializer
 
 
-#  function Product api_view(for learning)
-# @api_view(['GET'])
-# def api_overview(request):
-#     api_urls = {
-#         "Product List": "/product_list/",
-#         "Product detail": "/product_detail/<str:pk>/",
-#         "Create product": "create_product/",
-#         "Categories list": "list",
-#     }
-#     return Response(api_urls)
-#
-#
+# function Product api_view(for learning)
+@api_view(['GET'])
+def api_overview(request):
+    api_urls = {
+        "Product List": "/product_list/",
+        "Product detail": "/product_detail/<str:pk>/",
+        "Categories list": "/categories_list/",
+        "Categories detail": "/categories_detail/<str:pk>/",
+        "Subcategories list": "/subcategories_list/",
+        "Subcategories detail": "/subcategories_detail/<str:pk>/",
+    }
+    return Response(api_urls)
+
+
 # @api_view(['GET'])
 # def product_list(request):
 #     products = get_list_or_404(Product)
