@@ -24,13 +24,13 @@
                     <a class="nav-link" href="#">Nowości</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mężczyźni</a>
+                    <a class="nav-link" href="{% url 'shop:product_list' 'MA' %}">Mężczyźni</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Kobiety</a>
+                    <a class="nav-link" href="{% url 'shop:product_list' 'FE' %}">Kobiety</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dzieci</a>
+                    <a class="nav-link" href="{% url 'shop:product_list' 'CH' %}">Dzieci</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Wyprzedaż</a>
