@@ -6,5 +6,5 @@ from .views import Index, ProductList
 app_name = 'shop'
 urlpatterns = [
     path('', Index.as_view(), name='index'),
-    path('/<str:gender>/', ProductList.as_view(), name='product_list'),
+    path('<str:gender>/', ProductList.as_view(), name='product_list'),
 ]

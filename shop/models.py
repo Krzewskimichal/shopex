@@ -44,7 +44,7 @@ class Product(models.Model):
         (FEMALE, 'female'),
         (UNISEX, 'unisex'),
     ]
-    title = models.CharField(max_length=128, unique=True)
+    title = models.CharField(max_length=128)
     price = models.FloatField(max_length=64)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True)
     subcategory = models.ForeignKey(Subcategories, on_delete=models.SET_NULL, null=True, blank=True)

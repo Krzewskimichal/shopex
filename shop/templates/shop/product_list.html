@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
 {% block content %}
 
@@ -15,6 +16,7 @@
                 {% for product in products %}
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" src={% static 'images/default/default_shoe.png' %} alt="shoe">
                             <div class="card-body">
                                 <p class="card-text">Nazwa: {{ product.title }}</p>
                                 <p class="card-text">Cena: {{ product.price }} zł</p>
